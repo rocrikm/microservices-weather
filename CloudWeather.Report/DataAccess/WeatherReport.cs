@@ -2,6 +2,8 @@
 {
     public class WeatherReport
     {
+        internal decimal SnowTotalInches;
+
         public Guid Id { get; set; }
         public DateTime CreatedOn { get; set; }
         public decimal AverageHighF { get; set; }
