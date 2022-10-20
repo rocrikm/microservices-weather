@@ -22,8 +22,8 @@ var app = builder.Build();
 // than the parameters that we're going to pass => 
 // the delagate method
 
-
-app.MapGet("observation/{zip}", async (string zip, [FromQuery] int? days, PrecipDbContext db) =>
+// A method to interrogate the microservice
+app.MapGet("/observation/{zip}", async (string zip, [FromQuery] int? days, PrecipDbContext db) =>
 {
     //this is actually the delegate method that will call into the precipitation service business logic
 
@@ -43,5 +43,14 @@ app.MapGet("observation/{zip}", async (string zip, [FromQuery] int? days, Precip
     return Results.Ok(results);
 
 });
+
+// A mode to add datapoints to the database in a single DB transaction
+app.MapPost("/observation", async (Precipitation precip, PrecipDbContext db) => {
+    // is a good practice to separate the model that mimics the DB model, but a resource model dedicated for the UI
+    precip.CreatedOn = precip.CreatedOn.ToUniversalTime();
+    await db.AddAsync(precip);
+    await db.SaveChangesAsync();
+});
+
 
 app.Run();
