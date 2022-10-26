@@ -32,6 +32,10 @@ temperatureHttpClient.BaseAddress = new Uri($"http://{tempServiceHost}:{tempServ
 var precipitationHttpClient = new HttpClient();
 precipitationHttpClient.BaseAddress = new Uri($"http://{precipServiceHost}:{precipServicePort}");
 
+
+Console.WriteLine("Precipitation Service Uri: "+ $"http://{precipServiceHost}:{precipServicePort}");
+Console.WriteLine("Temperature Service Uri: " + $"http://{tempServiceHost}:{tempServicePort}");
+
 //start feeding the DB with data
 foreach (var zip in zipCodes) {
     Console.WriteLine($"Adding Data for Zip Code: {zip}");
